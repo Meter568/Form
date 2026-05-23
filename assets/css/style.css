@@ -1,5 +1,6 @@
 * {
     font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
 }
 
 body {
@@ -38,22 +39,46 @@ form {
 
 .inputs {
     display: flex;
+    align-items: start;
     justify-content: space-between;
     gap: 13px 0px;
     max-width: 100%;
 }
 
-.inputs > input {
+.inputs input {
     padding: 20px;
     border-radius: 5px;
     border: none;
     width: 100%;
+    font-size: 16px;
     min-width: 100px;
-    max-width: 230px;
+    max-width: 260px;
 }
 
-.inputs > input:focus {
+.inputs input:focus {
     outline: none;
+}
+
+.inputs .error {
+    border: 1px solid red;
+}
+
+.email-group,
+.password-group,
+.confirm-password-group {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+}
+
+.spanError {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid red;
+    border-radius: 5px;
+    background-color: white;
+    color: red;
 }
 
 .radioButtonGroups {
@@ -103,4 +128,8 @@ form {
 
 .btn:hover {
     background-color: #27aeac;
+}
+
+.btn:disabled {
+    background-color: gray;
 }

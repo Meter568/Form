@@ -6,6 +6,7 @@ function collectProps(event) {
     const formData = new FormData(form);
     const data = {};
     for (const [key, value] of formData.entries()) {
+        if (key.includes('password') || key.includes('passwordConfirm')) continue;
         data[key] = value;
     }
     localStorage.setItem(data.lastName, JSON.stringify(new Person(data)));
@@ -27,28 +28,51 @@ divContainer.append(divHeader, form);
 
 // inputs-1
 const divInputs1 = createElement('div', { class: 'inputs' });
-const inputFirst = createElement('input', { type: 'text', name: 'firstName', placeholder: 'First name' });
-const inputSecond = createElement('input', { type: 'text', name: 'lastName', placeholder: 'Second name' });
+const inputFirst = createElement('input', { type: 'text', name: 'firstName', placeholder: 'First name', required: '' });
+const inputSecond = createElement('input', {
+    type: 'text',
+    name: 'lastName',
+    placeholder: 'Second name',
+    required: '',
+});
 divInputs1.append(inputFirst, inputSecond);
 
 // inputs-2
 const divInputs2 = createElement('div', { class: 'inputs' });
 const inputDisplay = createElement('input', { type: 'text', name: 'nickName', placeholder: 'Display Name' });
-const inputEmail = createElement('input', { type: 'email', name: 'email', placeholder: 'Email Address' });
-divInputs2.append(inputDisplay, inputEmail);
+const divEmail = createElement('div', { class: 'email-group' });
+const inputEmail = createElement('input', { type: 'email', name: 'email', placeholder: 'Email Address', required: '' });
+const spanValidationEmail = createElement('span');
+
+divEmail.append(inputEmail, spanValidationEmail);
+divInputs2.append(inputDisplay, divEmail);
 
 // inputs-3
 const divInputs3 = createElement('div', { class: 'inputs' });
-const inputPassword = createElement('input', { type: 'password', placeholder: 'Password' });
-const inputPasswordConfirm = createElement('input', { type: 'password', placeholder: 'Password Confirmation' });
-divInputs3.append(inputPassword, inputPasswordConfirm);
+const inputPassword = createElement('input', {
+    type: 'password',
+    name: 'password',
+    placeholder: 'Password',
+    required: '',
+});
+const divConfirmPassword = createElement('div', { class: 'confirm-password-group' });
+const inputConfirmPassword = createElement('input', {
+    type: 'password',
+    name: 'passwordConfirm',
+    placeholder: 'Password Confirmation',
+    hidden: 'hidden',
+    required: '',
+});
+const spanValidationConfirmPassword = createElement('span');
+divConfirmPassword.append(inputConfirmPassword, spanValidationConfirmPassword);
+divInputs3.append(inputPassword, divConfirmPassword);
 
 // radiobuttongroup
 const radioButtonGroups = createElement('div', { class: 'radioButtonGroups' });
 
 // radio-1
 const divRadio1 = createElement('div');
-const inputByuer = createElement('input', { type: 'radio', name: 'person', id: 'buyer' });
+const inputByuer = createElement('input', { type: 'radio', name: 'person-buyer', id: 'buyer' });
 const labelBuyer = createElement('label', { for: 'buyer' });
 const span1 = createElement('span', {}, 'Join As a Buyer');
 const span2 = createElement('span', {}, 'I am looking for a Name, Logo or Tagline for my bussiness, brand or product.');
@@ -57,7 +81,7 @@ divRadio1.append(inputByuer, labelBuyer);
 
 // radio-2
 const divRadio2 = createElement('div');
-const inputCreative = createElement('input', { type: 'radio', name: 'person', id: 'cr' });
+const inputCreative = createElement('input', { type: 'radio', name: 'person-creative', id: 'cr' });
 const labelCreative = createElement('label', { for: 'cr' });
 const span3 = createElement('span', {}, 'Join As a Creative or Marketplace Seller');
 const span4 = createElement(
@@ -81,5 +105,5 @@ divCheckbox.append(inputCheckbox, labelCheckbox);
 
 // submit
 const submit = createElement('input', { type: 'submit', value: 'Create account', class: 'btn' });
-submit.addEventListener('click', collectProps);
+form.addEventListener('submit', collectProps);
 form.append(divInputs1, divInputs2, divInputs3, radioButtonGroups, divCheckbox, submit);
