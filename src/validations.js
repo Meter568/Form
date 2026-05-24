@@ -26,20 +26,32 @@ function validationEmail(event) {
 
 inputEmail.addEventListener('input', validationEmail);
 
-function handlerPassword(event) {
+function handlePassword(event) {
     const password = event.target.value;
     if (password.length > 0) {
         inputConfirmPassword.removeAttribute('hidden');
+        if (inputConfirmPassword.value.length > 0 && password !== inputConfirmPassword.value) {
+            spanValidationConfirmPassword.setAttribute('class', 'spanError');
+            spanValidationConfirmPassword.textContent = 'Passwords do not match!';
+            inputConfirmPassword.classList.add('error');
+            submit.setAttribute('disabled', 'disabled');
+        } else {
+            spanValidationConfirmPassword.removeAttribute('class');
+            spanValidationConfirmPassword.textContent = '';
+            inputConfirmPassword.classList.remove('error');
+            submit.removeAttribute('disabled');
+        }
     } else {
         inputConfirmPassword.setAttribute('hidden', 'hidden');
         spanValidationConfirmPassword.removeAttribute('class');
         spanValidationConfirmPassword.textContent = '';
+        inputConfirmPassword.value = '';
         inputConfirmPassword.classList.remove('error');
         submit.removeAttribute('disabled');
     }
 }
 
-inputPassword.addEventListener('input', handlerPassword);
+inputPassword.addEventListener('input', handlePassword);
 
 function validationConfirmPassword(event) {
     const confirmPassword = event.target.value;

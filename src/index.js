@@ -6,10 +6,16 @@ function collectProps(event) {
     const formData = new FormData(form);
     const data = {};
     for (const [key, value] of formData.entries()) {
-        if (key.includes('password') || key.includes('passwordConfirm')) continue;
         data[key] = value;
     }
-    localStorage.setItem(data.lastName, JSON.stringify(new Person(data)));
+    localStorage.setItem(
+        data.lastName,
+        JSON.stringify(
+            new Person(data),
+            (key, value) => (key === 'password' || key === 'passwordConfirm' ? undefined : value),
+            2,
+        ),
+    );
 }
 
 // container
